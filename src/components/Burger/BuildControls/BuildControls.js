@@ -20,15 +20,17 @@ const buildControls = props => {
           key={control.label}
           label={control.label}
           added={() => props.ingredientAdded(control.type)}
-          //   subtracted={
-          //     props.disabled[control.type]
-          //       ? null
-          //       : () => props.ingredientSubtracted(control.type)
-          //   }
           subtracted={() => props.ingredientSubtracted(control.type)}
           disabled={props.disabled[control.type]}
         />
       ))}
+      <button
+        className={classes.OrderButton}
+        disabled={!props.purchaseable}
+        onClick={props.setPurchasing}
+      >
+        ORDER NOW
+      </button>
     </div>
   );
 };
