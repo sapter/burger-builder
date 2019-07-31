@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./Burger.module.css";
 import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
 
-const Burger = props => {
+const burger = props => {
   const { ingredients } = props;
   let transormedIngredients = Object.keys(ingredients)
     .map(igKey =>
@@ -24,4 +24,4 @@ const Burger = props => {
   );
 };
 
-export default Burger;
+export default burger;
