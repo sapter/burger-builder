@@ -3,9 +3,6 @@ import Aux from "../../../hoc//Auxiliary/Auxiliary";
 import Button from "../../UI/Button/Button";
 
 class OrderSummary extends Component {
-  componentDidUpdate() {
-    console.log("[OrderSummary.js] componentDidUpdate");
-  }
   render() {
     const ingredientSummary = Object.keys(this.props.ingredients)
       .filter(igKey => this.props.ingredients[igKey] > 0)

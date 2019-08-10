@@ -1,0 +1,16 @@
+.Order {
+  width: 80%;
+  border: solid #eee;
+  box-shadow: 0 2px 3px #ddd;
+  padding: 10px;
+  margin: 10px auto;
+  box-sizing: border-box;
+}
+
+.Order ul {
+  list-style: none;
+}
+
+.Order li {
+  text-transform: capitalize;
+}
