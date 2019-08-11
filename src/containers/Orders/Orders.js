@@ -32,7 +32,6 @@ class Orders extends Component {
   }
 
   render() {
-    if (this.state.orders) console.dir(Object.keys(this.state.orders));
     const orders = this.state.orders
       ? Object.keys(this.state.orders).map(key => {
           return <Order key={key} id={key} info={this.state.orders[key]} />;
