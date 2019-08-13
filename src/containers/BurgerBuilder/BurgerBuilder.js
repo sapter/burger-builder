@@ -9,7 +9,7 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorhandler";
 
-import * as actions from "../../store/actions";
+import * as burgerBuilderActions from "../../store/actions/index";
 import axios from "../../axios-orders";
 
 class BurgerBuilder extends Component {
@@ -19,13 +19,14 @@ class BurgerBuilder extends Component {
     error: false,
   };
 
-  // componentDidMount() {
-  //   console.log("[BurgerBuilder.js] ComponentDidMount");
-  //   axios
-  //     .get("https://react-my-burger-ef0d2.firebaseio.com/ingredients.json")
-  //     .then(response => this.setState({ ingredients: response.data }))
-  //     .catch(err => this.setState({ error: true }));
-  // }
+  componentDidMount() {
+    this.props.fetchIngredients();
+    //   console.log("[BurgerBuilder.js] ComponentDidMount");
+    // axios
+    //   .get("https://react-my-burger-ef0d2.firebaseio.com/ingredients.json")
+    //   .then(response => this.setState({ ingredients: response.data }))
+    // .catch(err => this.setState({ error: true }));
+  }
 
   purchaseHandler = () => {
     this.setState({ purchasing: true });
@@ -36,20 +37,7 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    // const { ingredients } = this.state;
-    // const params = [];
-    // for (let key in ingredients) {
-    //   params.push(
-    //     encodeURIComponent(key) + "=" + encodeURIComponent(ingredients[key]),
-    //   );
-    // }
-    // params.push(`price=${this.state.totalPrice}`);
-    // const paramsString = params.join("&");
-    this.props.history.push({
-      pathname: "/checkout",
-      // search: `?${paramsString}`,
-      // state: this.state.ingredients,
-    });
+    this.props.history.push("/checkout");
   };
 
   updatePurchaseState = () => {
@@ -59,32 +47,6 @@ class BurgerBuilder extends Component {
     }, 0);
     return sum > 0;
   };
-
-  // addIngredientHandler = async type => {
-  //   const { totalPrice } = this.props;
-  //   const newPrice = totalPrice + INGREDIENT_PRICES[type];
-  //   await this.props.addIngredient(type, newPrice);
-  //   this.updatePurchaseState(this.props.ingredients);
-  //   const currentCount = ingredients[type];
-  //   const updatedCount = currentCount + 1;
-  //   const updatedIngredients = { ...ingredients };
-  //   updatedIngredients[type] = updatedCount;
-  //   this.setState({ ingredients: updatedIngredients, totalPrice: newPrice });
-  // };
-
-  // removeIngredientHandler = async type => {
-  //   const { totalPrice } = this.props;
-  //   const newPrice = totalPrice - INGREDIENT_PRICES[type];
-  //   await this.props.removeIngredient(type, newPrice);
-  //   this.updatePurchaseState(this.props.ingredients);
-  //   const currentCount = ingredients[type];
-  //   if (currentCount <= 0) return;
-  //   const updatedCount = currentCount - 1;
-  //   const updatedIngredients = { ...ingredients };
-  //   updatedIngredients[type] = updatedCount;
-  //   const newPrice = totalPrice - INGREDIENT_PRICES[type];
-  //   this.setState({ ingredients: updatedIngredients, totalPrice: newPrice });
-  // };
 
   render() {
     const disabledInfo = { ...this.props.ingredients };
@@ -116,7 +78,7 @@ class BurgerBuilder extends Component {
         </Aux>
       );
     }
-    return this.state.error ? (
+    return this.props.errorFetching ? (
       <p>Error: Can't fetch ingredients</p>
     ) : (
       <Aux>
@@ -134,17 +96,19 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
   return {
-    ingredients: state.ingredients,
-    totalPrice: state.totalPrice,
+    ingredients: state.burgerReducer.ingredients,
+    totalPrice: state.burgerReducer.totalPrice,
+    errorFetching: state.burgerReducer.error,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     addIngredient: ingredientName =>
-      dispatch({ type: actions.ADD_INGREDIENT, ingredientName }),
+      dispatch(burgerBuilderActions.addIngredient(ingredientName)),
     removeIngredient: ingredientName =>
-      dispatch({ type: actions.REMOVE_INGREDIENT, ingredientName }),
+      dispatch(burgerBuilderActions.removeIngredient(ingredientName)),
+    fetchIngredients: () => dispatch(burgerBuilderActions.fetchIngredients()),
   };
 };
 

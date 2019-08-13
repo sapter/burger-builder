@@ -1,4 +1,4 @@
-import * as actionTypes from "../actions";
+import * as actionTypes from "../actions/actionsTypes";
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -8,17 +8,30 @@ const INGREDIENT_PRICES = {
 };
 
 const initialState = {
-  ingredients: {
-    salad: 0,
-    bacon: 0,
-    cheese: 0,
-    meat: 0,
-  },
+  ingredients: null,
   totalPrice: 4,
+  error: false,
 };
 
 const burger = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.INIT_INGREDIENTS:
+      return {
+        ...state,
+        ingredients: {
+          salad: action.payload.salad,
+          bacon: action.payload.bacon,
+          cheese: action.payload.cheese,
+          meat: action.payload.meat,
+        },
+        totalPrice: 4,
+        error: false,
+      };
+    case actionTypes.FETCH_INGREDIENTS_FAILED:
+      return {
+        ...state,
+        error: true,
+      };
     case actionTypes.ADD_INGREDIENT:
       return {
         ...state,
