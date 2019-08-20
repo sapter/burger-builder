@@ -4,16 +4,22 @@ import classes from "./NavigationItems.module.css";
 
 const navigationItems = props => (
   <ul className={classes.NavigationItems}>
-    <NavigationItem exact link="/">
+    <NavigationItem clicked={props.clicked} exact link="/">
       Burger Builder
     </NavigationItem>
     {props.authenticated ? (
-      <NavigationItem link="/orders">My Orders</NavigationItem>
+      <NavigationItem clicked={props.clicked} link="/orders">
+        My Orders
+      </NavigationItem>
     ) : null}
     {props.authenticated ? (
-      <NavigationItem link="logout">Log Out</NavigationItem>
+      <NavigationItem clicked={props.clicked} link="logout">
+        Log Out
+      </NavigationItem>
     ) : (
-      <NavigationItem link="/auth">Log In</NavigationItem>
+      <NavigationItem clicked={props.clicked} link="/auth">
+        Log In
+      </NavigationItem>
     )}
   </ul>
 );
