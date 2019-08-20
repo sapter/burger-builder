@@ -9,17 +9,9 @@ import axios from "../../axios-orders";
 
 class Orders extends Component {
   componentDidMount() {
-    this.props.fetchOrders();
+    const { token, userId } = this.props;
+    this.props.fetchOrders(token, userId);
   }
-  // async componentDidMount() {
-  //   try {
-  //     const res = await axios.get("/orders.json");
-  //     this.setState({ orders: res.data, loading: false });
-  //   } catch (err) {
-  //     await this.setState({ error: true, errorMessage: err, loading: false });
-  //     console.dir(err);
-  //   }
-  // }
 
   render() {
     const orders = this.props.orders
@@ -27,18 +19,20 @@ class Orders extends Component {
           return <Order key={key} id={key} info={this.props.orders[key]} />;
         })
       : null;
-    if (this.state.error) return <p>ERROR Occurred</p>;
-    else return this.props.loading ? <Spinner /> : <div>{orders}</div>;
+    return this.props.loading ? <Spinner /> : <div>{orders}</div>;
   }
 }
 
 const mapStateToProps = state => ({
   orders: state.orderReducer.orders,
   loading: state.orderReducer.loading,
+  token: state.authReducer.token,
+  userId: state.authReducer.userId,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchOrders: () => dispatch(orderActions.fetchOrders()),
+  fetchOrders: (token, userId) =>
+    dispatch(orderActions.fetchOrders(token, userId)),
 });
 
 export default connect(

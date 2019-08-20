@@ -100,8 +100,9 @@ class ContactData extends Component {
         email: this.state.orderForm.email.value,
         deliveryMethod: this.state.orderForm.deliveryMethod.value,
       },
+      userId: this.props.userId,
     };
-    this.props.onOrderBurger(order);
+    this.props.onOrderBurger(order, this.props.token);
     setTimeout(() => {
       this.props.history.replace("/");
     }, 300);
@@ -146,18 +147,20 @@ class ContactData extends Component {
 }
 
 const mapStateToProps = state => {
-  const { burgerReducer, orderReducer } = state;
+  const { burgerReducer, orderReducer, authReducer } = state;
   return {
     ingredients: burgerReducer.ingredients,
     price: burgerReducer.totalPrice,
     loading: orderReducer.loading,
+    token: authReducer.token,
+    userId: authReducer.userId,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderBurger: orderData =>
-      dispatch(orderActions.purchaseBurgerStart(orderData)),
+    onOrderBurger: (orderData, token) =>
+      dispatch(orderActions.purchaseBurgerStart(orderData, token)),
   };
 };
 

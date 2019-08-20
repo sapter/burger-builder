@@ -1,0 +1,25 @@
+.Auth {
+  box-shadow: 0 2px 3px #ddd;
+  margin: auto;
+  width: 80%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #eee;
+}
+
+@media (min-width: 600px) {
+  .Auth {
+    width: 500px;
+  }
+}
+
+.Auth form {
+  display: flex;
+  flex-direction: column;
+}
+
+.Auth p {
+  color: red;
+  font-weight: bold;
+}
